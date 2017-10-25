@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <title>Clippy</title>
+        <style>
+                input,
+                select,
+                textarea {
+                        display: block;
+                }
+        </style>
+</head>
+
+<body>
+        <form id="my-form" action="/message" method="post">
+                <table style="width:100%">
+                        <tr>
+                                <td>Message</td>
+                                <td><textarea name="message" rows="10" cols="30">Hello Clippy, my old friend.</textarea></td>
+                        </tr>
+                        <tr>
+                                <td>Message</td>
+                                <td><select name="size">
+                                        <option value="1em">1 em</option>
+                                        <option value="2em">2 em</option>
+                                        <option value="2.5em">2.5 em</option>
+                                        <option value="3em" selected="selected"> 3 em</option>
+                                        <option value="3.5em">3.5 em</option>
+                                        <option value="4em">4 em</option>
+                                        <option value="5em">5 em</option>
+                                        <option value="6em">6 em</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                                <td>Icon</td>
+                                <td><select name="icon">
+                                        <% for ( var i = 0; i < icons.length; i++ ) { %>
+                                                <option value="<%= icons[i] %>"><%= icons[i] %></option>
+                                        <% } %>
+                                </select></td>
+                        </tr>
+                        <tr>
+                                <td>Sound</td>
+                                <td><select name="sound">
+                                        <option value="volvo">None</option>
+                                </select></td>
+                        </tr>
+                </table>
+
+                <input type="submit" value="Submit">
+        </form>
+        <div id="status"></div>
+        <script src="./jquery-3.2.1.min.js"></script>
+<script>
+$('#my-form').submit(function(e){
+        e.preventDefault();        
+        $('#status').text("Sending...");
+        $.ajax({
+                url:'/message',
+                type:'post',
+                data:$('#my-form').serialize(),
+                success: function() {
+                        $('#status').text("Sent!");
+                }
+        });
+});
+</script>
+</body>
+
+</html>

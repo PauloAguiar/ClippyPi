@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <title>Clippy</title>
+        <style>
+                input,
+                select,
+                textarea {
+                        display: block;
+                }
+        </style>
+</head>
+
+<body>
+        <Span>Sound</Span>
+        <form id="uploadForm"
+                enctype="multipart/form-data"
+                action="/sound/upload"
+                method="post">
+                <input type="file" name="sound" />
+                <input type="submit" value="Upload Sound" name="submit">
+                <span id="status"></span>
+        </form>
+        <br>
+        <Span>Icon</Span>
+        <form id="uploadForm"
+                enctype="multipart/form-data"
+                action="/icon/upload"
+                method="post">
+                <input type="file" name="icon" />
+                <input type="submit" value="Upload Icon" name="submit">
+                <span id="status"></span>
+        </form>
+
+        <script src="./jquery-3.2.1.min.js"></script>
+<script>
+ $(document).ready(function() {
+        
+        $('#uploadForm').submit(function() {
+                $(this).ajaxSubmit({
+                        error: function(xhr) {
+                                status('Error: ' + xhr.status);
+                        },
+                        success: function(response) {
+                        }
+                });
+
+                return false;
+        });    
+});
+</script>
+</body>
+
+</html>

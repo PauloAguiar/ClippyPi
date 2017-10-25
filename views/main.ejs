@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Clippy</title>
+        <style>
+                body {
+                        background-color:#ffff00;
+                        width: 790px;
+                        height: 470px;
+
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+
+                        margin: auto;
+                }
+
+                #clippy-message {
+                        font-family: Tahoma, Verdana, sans-serif;
+                        padding: 20px;
+                        vertical-align: middle;
+                        display: table-cell;
+                }
+
+                #icon {
+                        vertical-align: middle;
+                        display: table-cell;
+
+                        width: 200px;
+                        padding-top: 30px;
+                        padding-left: 30px;
+                        padding-right: 30px;
+                }
+
+                #container {
+                        display: table;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                }
+        </style>
+</head>
+
+<body>
+<div id="container">
+        <img id="icon"/>
+        <span id="clippy-message"></span>
+</div>
+
+<script src="./jquery-3.2.1.min.js"></script>
+<script>
+var previousHash = 0;
+
+$(function() {
+        pollServer();
+        function pollServer() {
+                $.get('/update', function (data) {
+                        if (data['hash'] === previousHash) {
+                                return;
+                        };
+                        previousHash = data['hash'];
+                        $("#clippy-message").hide();
+                        $("#clippy-message").text(data['message']);
+                        $('#clippy-message').css("font-size", data['size']);
+                        $("#clippy-message").fadeIn(1000);
+
+                        if (data['icon'] === 'none') {
+                                $("#icon").hide();
+                        }
+                        else {
+                                $("#icon").hide();
+                                $("#icon").attr('src','./icons/' + data['icon']);
+                                $("#icon").fadeIn(1000);
+                        }
+                })
+                .always(function () {
+                        setTimeout(pollServer, 1000);
+                });
+        };
+});
+</script>
+</body>
+</html>
