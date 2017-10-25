@@ -36,7 +36,8 @@ var payload = {
         'sound': 'none'
 };
 
-var previousPlayedSound = new Sound('./public/sounds/Windows XP Startup.wav').play(); ;
+var previousPlayedSound = new Sound('./public/sounds/Windows XP Startup.wav');
+previousPlayedSound.play();
 var previousHash = 0;
 
 var hash = hashObject(payload);
@@ -91,7 +92,8 @@ app.get('/', function (req, res) {
 app.get('/update', function (req, res) {
         if (previousHash != payload['hash']) {
                 previousPlayedSound.stop();
-                previousPlayedSound = new Sound('./public/sounds/' + payload['sound']).play();
+                previousPlayedSound = new Sound('./public/sounds/' + payload['sound']);
+                previousPlayedSound.play();
 
                 previousHash = payload['hash'];
         }
