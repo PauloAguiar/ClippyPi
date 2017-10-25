@@ -49,10 +49,10 @@ fs.readdir(iconsFolder, (err, files) => {
         });
 });
 
-fs.readdir(soundFolder, (err, files) => {
+fs.readdir(soundsFolder, (err, files) => {
         files.forEach(file => {
           console.log(file);
-          icons.push(file);
+          sounds.push(file);
         });
 });
 
