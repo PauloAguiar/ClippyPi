@@ -14,7 +14,6 @@
     "express": "latest",
     "hash-object": "^0.1.7",
     "multer": "^1.3.0",
-    "node-aplay": "^1.0.3",
-    "speaker": "^0.4.0"
+    "node-aplay": "^1.0.3"
   }
 }
