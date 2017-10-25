@@ -21,7 +21,7 @@
                                 <td><textarea name="message" rows="10" cols="30">Hello Clippy, my old friend.</textarea></td>
                         </tr>
                         <tr>
-                                <td>Message</td>
+                                <td>Size</td>
                                 <td><select name="size">
                                         <option value="1em">1 em</option>
                                         <option value="2em">2 em</option>
@@ -44,7 +44,9 @@
                         <tr>
                                 <td>Sound</td>
                                 <td><select name="sound">
-                                        <option value="volvo">None</option>
+                                        <% for ( var i = 0; i < sounds.length; i++ ) { %>
+                                                <option value="<%= sounds[i] %>"><%= sounds[i] %></option>
+                                        <% } %>
                                 </select></td>
                         </tr>
                 </table>

@@ -6,14 +6,12 @@ var hashObject = require('hash-object');
 var multer  =   require('multer');
 var Sound = require('node-aplay');
 
-new Sound('./public/sounds/Windows XP Shutdown.wav').play();
-
-const iconFolder = './public/icons/';
+const iconsFolder = './public/icons/';
 const soundsFolder = './public/sounds/';
 
 var iconsStorage =   multer.diskStorage({
         destination: function (req, file, callback) {
-          callback(null, iconFolder);
+          callback(null, iconsFolder);
         },
         filename: function (req, file, callback) {
           callback(null, file.originalname);
@@ -34,15 +32,24 @@ var uploadSound = multer({storage: soundsStorage}).single('sound');
 var payload = {
         'message': 'It looks like you are trying to escape this room. Have you tried the door?',
         'size': '3em',
-        'icon': 'exit.png'
+        'icon': 'none',
+        'sound': 'none'
 };
 
 var hash = hashObject(payload);
 payload['hash'] = hash;
 
 var icons = ['none'];
+var sounds = ['none'];
 
-fs.readdir(iconFolder, (err, files) => {
+fs.readdir(iconsFolder, (err, files) => {
+        files.forEach(file => {
+          console.log(file);
+          icons.push(file);
+        });
+});
+
+fs.readdir(soundFolder, (err, files) => {
         files.forEach(file => {
           console.log(file);
           icons.push(file);
@@ -57,17 +64,20 @@ app.use(bodyParser.urlencoded({
 })); 
 
 app.get('/hi', function (req, res) {
-        return res.render('hi', {'icons': icons});
+        return res.render('hi', {'icons': icons, 'sounds': sounds});
 });
 
 app.post('/message', function (req, res) {
         payload = {
                 'message': req.body.message,
                 'size': req.body.size,
-                'icon': req.body.icon
+                'icon': req.body.icon,
+                'sound': req.body.sound
         };
         var hash = hashObject(payload);
         payload['hash'] = hash;
+
+        new Sound('./public/sounds/' + payload['sound']).play();
 
         return res.json({'message':'ok'});
 });
