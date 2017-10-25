@@ -36,6 +36,9 @@ var payload = {
         'sound': 'none'
 };
 
+var previousPlayedSound = new Sound('./public/sounds/Windows XP Startup.wav').play(); ;
+var previousHash = 0;
+
 var hash = hashObject(payload);
 payload['hash'] = hash;
 
@@ -74,10 +77,9 @@ app.post('/message', function (req, res) {
                 'icon': req.body.icon,
                 'sound': req.body.sound
         };
+
         var hash = hashObject(payload);
         payload['hash'] = hash;
-
-        new Sound('./public/sounds/' + payload['sound']).play();
 
         return res.json({'message':'ok'});
 });
@@ -87,6 +89,13 @@ app.get('/', function (req, res) {
 });
 
 app.get('/update', function (req, res) {
+        if (previousHash != payload['hash']) {
+                previousPlayedSound.stop();
+                previousPlayedSound = new Sound('./public/sounds/' + payload['sound']).play();
+
+                previousHash = payload['hash'];
+        }
+        
         return res.json(payload);
 });
 
