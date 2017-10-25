@@ -111,6 +111,15 @@ app.post('/sound/upload', function(req, res) {
                 return res.end("Error uploading file.");
             }
 
+            var sounds = ['none'];
+            
+            fs.readdir(soundsFolder, (err, files) => {
+                    files.forEach(file => {
+                      console.log(file);
+                      sounds.push(file);
+                    });
+            });
+
             return res.end("File was uploaded!");
         });
 });
@@ -120,7 +129,15 @@ app.post('/icon/upload', function(req, res) {
             if (err) {
                 return res.end("Error uploading file.");
             }
-
+            var icons = ['none'];
+            
+            fs.readdir(iconsFolder, (err, files) => {
+                    files.forEach(file => {
+                      console.log(file);
+                      icons.push(file);
+                    });
+            });
+            
             return res.end("File was uploaded!");
         });
 });
